@@ -118,6 +118,8 @@
 				</form>
 			</div>
 		</div>
+		/*
+		
 		<div class="flex flex-col justify-center w-full my-4">
 			<div class="flex items-center justify-center my-2">
 				<span>Built with</span>
@@ -151,6 +153,8 @@
 			</div>
 		</div>
 	</div>
+	
+	*/
 </template>
 
 <style>
