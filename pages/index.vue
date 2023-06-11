@@ -118,27 +118,7 @@
 				</form>
 			</div>
 		</div>
-		/*
-		
 		<div class="flex flex-col justify-center w-full my-4">
-			<div class="flex items-center justify-center my-2">
-				<span>Built with</span>
-				<a
-					href="https://openai.com/blog/gpt-3-apps"
-					class="flex items-center mx-1 font-medium underline transition-colors underline-offset-4 hover:text-black/70"
-				>
-					<p>gpt-3</p>
-				</a>
-				<span>and</span>
-				<a
-					href="https://nuxt.com/docs"
-					class="flex items-center font-medium underline transition-colors underline-offset-4 hover:text-black/70"
-				>
-					<img src="/nuxt.svg" class="h-6 mx-2" />
-					<p>Nuxt</p>
-				</a>
-				.
-			</div>
 			<div class="flex flex-col items-center justify-center">
 				<a href="https://vercel.com">
 					<img src="/vercel.svg" alt="Vercel Logo" class="h-4 my-2 text-white" />
@@ -153,8 +133,7 @@
 			</div>
 		</div>
 	</div>
-	
-	*/
+
 </template>
 
 <style>
