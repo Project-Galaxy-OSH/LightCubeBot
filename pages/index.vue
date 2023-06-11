@@ -118,6 +118,8 @@
 				</form>
 			</div>
 		</div>
+		
+<!-- 		
 			<div class="flex items-center justify-center my-2">
 				<span>Built with</span>
 				<a
@@ -151,7 +153,7 @@
 			</div>
 		</div>
 	</div>
-
+-->
 </template>
 
 <style>
