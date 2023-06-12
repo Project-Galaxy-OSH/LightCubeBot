@@ -1,7 +1,7 @@
 <script setup>
 	const messages = ref([
 		{
-			role: 'AI',
+			role: 'AI Elon Musk',
 			message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
 		}
 	]);
@@ -35,12 +35,12 @@
 		if (res.status === 200) {
 			const response = await res.json();
 			messages.value.push({
-				role: 'AI',
+				role: 'AI Elon Musk',
 				message: response?.message
 			});
 		} else {
 			messages.value.push({
-				role: 'AI',
+				role: 'AI Elon Musk',
 				message: 'Sorry, an error occurred.'
 			});
 		}
@@ -70,7 +70,7 @@
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
 				<div class="h-full overflow-auto chat-messages">
 					<div v-for="(message, i) in messages" :key="i" class="flex flex-col p-4">
-						<div v-if="message.role === 'AI'" class="pr-8 mr-auto">
+						<div v-if="message.role === 'AI Elon Musk'" class="pr-8 mr-auto">
 							<div class="p-2 mt-1 text-sm text-gray-700 bg-gray-200 rounded-lg text-smp-2">
 								{{ message.message }}
 							</div>
@@ -129,12 +129,12 @@
 			<div class="flex items-center justify-center my-2">
 				<span>摇光人格</span>
 				<a
-					href="https://www.baidu.com/"
+					href="http://lightcube.me/"
 					class="flex items-center mx-1 font-medium underline transition-colors underline-offset-4 hover:text-black/70"
 				>
 					<p>LightCube.Me</p>
 				</a>
-				.
+				
 			</div>
 		
 	</div>
