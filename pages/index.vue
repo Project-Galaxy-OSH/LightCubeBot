@@ -51,6 +51,11 @@
 </script>
 
 <template>
+	<head>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+	<!-- Other head elements -->
+  	</head>
+
 	<div class="max-w-xl mx-auto text-black">
 		<a
 			href="http://lightcube.me/"
@@ -169,5 +174,16 @@
 	  border-radius: 50%;
 	  /* Add more styles as needed */
 	}
+	
+	input[type="text"], input[type="search"], textarea {
+	  -webkit-text-size-adjust: 100%;
+	  -webkit-appearance: none;
+	  -moz-appearance: none;
+	  appearance: none;
+	  text-transform: none;
+	  text-autocapitalize: none;
+	  text-autocorrect: off;
+	}
+
 
 </style>
