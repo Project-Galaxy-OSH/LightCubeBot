@@ -2,7 +2,7 @@
 	const messages = ref([
 		{
 			role: 'AI',
-			message: 'Hello! How can I help you?'
+			message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询，冒险者今天有什么想问我的吗？'
 		}
 	]);
 	const loading = ref(false);
@@ -58,7 +58,7 @@
 		>
 			创建属于你的AI摇光
 		</a>
-		<h1 class="my-8 text-5xl font-bold text-center text-black">摇光人格</h1>
+		<h1 class="my-8 text-5xl font-bold text-center text-black">丶时光啊AI</h1>
 		<img src="https://raw.githubusercontent.com/Johnnnmai/unknown/fce3cf19a75fb421733cd3d966334579f0b108b3/image.png" alt="Profile Picture" class="profile-picture" />
 
 		<div class="max-w-xl mx-auto">
