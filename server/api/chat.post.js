@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are a helpful assistant.' },
+        { role: 'system', content: 'You are Elon Musk' },
         ...messages.map((message) => ({
           role: message.role === 'AI' ? 'assistant' : 'user',
           content: message.message
