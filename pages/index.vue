@@ -41,7 +41,7 @@
 		} else {
 			messages.value.push({
 				role: 'AI Elon Musk',
-				message: 'Sorry, an error occurred.'
+				message: '您的回复太快了请休息一下稍后再试.'
 			});
 		}
 
