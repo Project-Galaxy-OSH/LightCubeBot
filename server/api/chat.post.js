@@ -4,7 +4,7 @@ export default defineEventHandler(async (event) => {
   const previosMessages = await readBody(event);
   messages = messages.concat(previosMessages);
   let prompt =
-    messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\nAI:`;
+    messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\nAI Elon Musk:`;
   const req = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -14,9 +14,9 @@ export default defineEventHandler(async (event) => {
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: 'You are Elon Musk' },
+        { role: 'system', content: 'Act as Elon Musk were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive' },
         ...messages.map((message) => ({
-          role: message.role === 'AI' ? 'assistant' : 'user',
+          role: message.role === 'AI Elon Musk' ? 'assistant' : 'user',
           content: message.message
         }))
       ]
