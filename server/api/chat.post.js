@@ -3,20 +3,18 @@ export default defineEventHandler(async (event) => {
 	let messages = [];
 	const previousMessages = await readBody(event);
 	messages = messages.concat(previousMessages);
-	
-	// Add your custom system message
-	messages.unshift({
-		role: 'system',
-		content: `${prompt} Act as Elon Musk were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive`
+	// Convert the messages to the new format
+	const convertedMessages = messages.map((message) => {
+		return {role: message.role.toLowerCase(), content: message.message};
 	});
-	
-	let prompt = messages.map((message) => {
-		return {
-			role: message.role === 'AI' ? 'assistant' : 'user',
-			content: message.message
-		};
-	});
-	const req = await fetch('https://api.openai.com/v1/chat/completions', {
+	// Add a system message at the start if it doesn't exist
+	if (convertedMessages.length === 0 || convertedMessages[0].role !== 'system') {
+		convertedMessages.unshift({
+			role: 'system',
+			content: 'You are a helpful assistant.'
+		});
+	}
+	const req = await fetch('https://api.openai.com/v1/engines/davinci-codex/answers', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -24,13 +22,12 @@ export default defineEventHandler(async (event) => {
 		},
 		body: JSON.stringify({
 			model: 'gpt-3.5-turbo',
-			messages: prompt
+			messages: convertedMessages
 		})
 	});
 
 	const res = await req.json();
-	const result = res.choices[0].message.content;
 	return {
-		message: result
+		message: res.choices[0].message.content
 	};
 });
