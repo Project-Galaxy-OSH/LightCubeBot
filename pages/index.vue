@@ -59,6 +59,8 @@
 			创建属于你的AI摇光
 		</a>
 		<h1 class="my-8 text-5xl font-bold text-center text-black">摇光人格</h1>
+		<img src="https://raw.githubusercontent.com/Johnnnmai/unknown/fce3cf19a75fb421733cd3d966334579f0b108b3/image.png" alt="Profile Picture" class="profile-picture" />
+
 		<div class="max-w-xl mx-auto">
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
 				<div class="h-full overflow-auto chat-messages">
@@ -131,7 +133,7 @@
 			</div>
 		
 	</div>
-
+	
 </template>
 
 <style>
@@ -160,4 +162,12 @@
 			box-shadow: 14px 0 0 2px, 38px 0 0 -2px;
 		}
 	}
+	
+	.profile-picture {
+	  width: 50px;
+	  height: 50px;
+	  border-radius: 50%;
+	  /* Add more styles as needed */
+	}
+
 </style>
