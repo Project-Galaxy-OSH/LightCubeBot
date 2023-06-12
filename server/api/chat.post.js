@@ -3,6 +3,13 @@ export default defineEventHandler(async (event) => {
 	let messages = [];
 	const previousMessages = await readBody(event);
 	messages = messages.concat(previousMessages);
+	
+	// Add your custom system message
+	messages.unshift({
+		role: 'system',
+		content: `${prompt} Act as Elon Musk were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive`
+	});
+	
 	let prompt = messages.map((message) => {
 		return {
 			role: message.role === 'AI' ? 'assistant' : 'user',
