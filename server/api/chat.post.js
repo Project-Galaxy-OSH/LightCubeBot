@@ -425,8 +425,7 @@ export default defineEventHandler(async (event) => {
       messages: [
         { role: 'system', content: `${prompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
         ...messages.map((message) => ({
-          role: message.role === 'user',
-          content: message.message
+          role:'user', content: message.message
         }))
       ]
     })
