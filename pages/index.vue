@@ -34,10 +34,13 @@
 
 		if (res.status === 200) {
 			const response = await res.json();
-			messages.value.push({
-				role: '丶时光啊AI',
-				message: response?.message
-			});
+
+			// Simulate typing effect
+			const words = response.message.split(' ');
+			for (let i = 0; i < words.length; i++) {
+				await new Promise(resolve => setTimeout(resolve, 200));
+				messages.value[messages.value.length - 1].message += words[i] + ' ';
+			}
 		} else {
 			messages.value.push({
 				role: '丶时光啊AI',
@@ -49,6 +52,7 @@
 		scrollToEnd();
 	};
 </script>
+
 
 <template>
 	<head>
