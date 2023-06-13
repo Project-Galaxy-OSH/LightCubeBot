@@ -72,10 +72,7 @@
 					<div v-for="(message, i) in messages" :key="i" class="flex flex-col p-4">
 						<div v-if="message.role === '丶时光啊AI'" class="pr-8 mr-auto">
 							<div class="p-2 mt-1 text-sm text-gray-700 bg-gray-200 rounded-lg text-smp-2">
-								<span v-if="!loading && i === messages.length - 1" class="typing-animation">
-        								{{ message.message }}
-      								</span>
-      								<span v-else>{{ message.message }}</span>
+								{{ message.message }}
 							</div>
 						</div>
 						<div v-else class="pl-8 ml-auto">
@@ -187,23 +184,6 @@
 	  text-autocapitalize: none;
 	  text-autocorrect: off;
 	}
-	
-	.typing-animation {
-	  animation: typing 1s steps(40) infinite;
-	  overflow: hidden;
-	  white-space: nowrap;
-	  border-right: 2px solid #000; /* Replace with your desired border style */
-	}
-
-	@keyframes typing {
-	  from {
-	    width: 0;
-	  }
-	  to {
-	    width: 100%;
-	  }
-	}
-
 
 
 </style>
