@@ -1,5 +1,5 @@
 const influencer_name = "丶时光啊";
-const influencer_writing = '团本邪dk登顶系列p2：暴杀90%wcldk的手法，邪dk自身技能对轴讲解。
+const influencer_writing = `团本邪dk登顶系列p2：暴杀90%wcldk的手法，邪dk自身技能对轴讲解。
 
 丶时光啊
 粉丝：3846文章：11
@@ -401,7 +401,7 @@ gcd=公共cd cd=技能冷却 按下一个技能以后 所有占用gcd的技能�
 关注
 单体：疾病-脓疮x2-大军吃药-变身-gcd转完瓦格里-大便x2第二个大便引导饰品（有嗜血，无嗜血减少一个）-天启符文武器-邪恶突袭-正常输出-时光：邪dk最优解起手和平稳期循环讲解
 2023年03月28日 03:1794阅读 · 4喜欢 · 0评论
-视频地址： 时光：邪dk最优解起手和平稳期循环讲解';
+视频地址： 时光：邪dk最优解起手和平稳期循环讲解`;
 const influencer_introduction = "丶时光啊是一个b站的游戏主播,专门直播魔兽世界, 关注数 56, 粉丝数 3845, 自我介绍逻辑魔兽，科学魔兽！游戏业务、私教+V T1min9 加v备注来意，感谢！";
 const prompt = 'Analyze the text below for the overall writing style. Take note of things like my style, voice, language, tone of voice, common phrases, opinions, and topics they often talk about. Using natural language, create a prompt to generate an influencer template. The template should include a concise summary of the influencer's writing style, common phrases or expressions they use, topics they often talk about, and perhaps even their opinions on these topics. The goal is to capture the essence of the influencer's communication style and personality, without including so much detail that it exceeds the token limit.\n\nText: ${influencer_introduction} ${influencer_writing}';
 
