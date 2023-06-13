@@ -8,6 +8,7 @@
 	  const loading = ref(false);
 	  const message = ref('');
 	  let isTyping = ref(false);
+	  const typing = ref(false); // New ref
 
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
@@ -35,6 +36,7 @@
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
+	    typing.value = true; // Set typing to true when user submits a message
 
 	    messages.value.push({
 	      role: 'User',
@@ -51,6 +53,7 @@
 
 	    if (res.status === 200) {
 	      const response = await res.json();
+	      typing.value = false; // Set typing to false when the response is received
 	      messages.value.push({
 		role: '丶时光啊AI',
 		message: '' // Start with an empty message
@@ -67,6 +70,7 @@
 	    scrollToEnd();
 	  };
 </script>
+
 
 
 <template>
@@ -102,6 +106,9 @@
 					</div>
 					<div class="p-4 ml-10 mr-auto" v-if="loading">
 						<span class="loader"></span>
+					</div>
+					<div class="p-4 ml-10 mr-auto" v-if="typing">
+						丶时光啊AI is typing...
 					</div>
 				</div>
 				<form @submit.prevent="sendPrompt">
@@ -144,7 +151,7 @@
 				</form>
 			</div>
 		</div>
-			
+
 			<div class="flex items-center justify-center my-2">
 				<span>摇光人格</span>
 				<a
