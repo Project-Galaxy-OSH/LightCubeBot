@@ -52,18 +52,21 @@
 	    });
 
 	    if (res.status === 200) {
-	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
-	      });
-	      typeMessage(response?.message); // Animate the message being typed
+		      const response = await res.json();
+		      typing.value = false; // Set typing to false when the response is received
+		      messages.value.push({
+			role: '丶时光啊AI',
+			message: '' // Start with an empty message
+		      });
+		      typeMessage(response?.message); // Animate the message being typed
 	    } else {
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
-	      });
+		      const errorResponse = await res.json(); // Get the error message from the response
+		      console.error('Error status:', res.status); // Print out the status
+		      console.error('Error message:', errorResponse); // Print out the error message
+		      messages.value.push({
+			role: '丶时光啊AI',
+			message: '您的回复太快了请休息一下稍后再试.'
+		      });
 	    }
 
 	    loading.value = false;
