@@ -1,8 +1,8 @@
 <script setup>
 	const messages = ref([
 		{
-			role: '丶时光啊AI',
-			message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+			role: '丶时光啊AI ',
+			message: '你好！我是丶时光啊的AI摇光人格。我非常热爱分享自己的游戏经验和技巧，希望能够帮助更多的玩家提升自己的游戏技能。如果你有任何问题或建议，可以给我留言哦！ '
 		}
 	]);
 	const loading = ref(false);
@@ -34,13 +34,10 @@
 
 		if (res.status === 200) {
 			const response = await res.json();
-
-			// Simulate typing effect
-			const words = response.message.split(' ');
-			for (let i = 0; i < words.length; i++) {
-				await new Promise(resolve => setTimeout(resolve, 200));
-				messages.value[messages.value.length - 1].message += words[i] + ' ';
-			}
+			messages.value.push({
+				role: '丶时光啊AI',
+				message: response?.message
+			});
 		} else {
 			messages.value.push({
 				role: '丶时光啊AI',
