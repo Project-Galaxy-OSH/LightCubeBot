@@ -1,7 +1,7 @@
 <script setup>
 	const messages = ref([
 		{
-			role: 'AI Elon Musk',
+			role: 'AI 丶时光啊',
 			message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
 		}
 	]);
@@ -35,12 +35,12 @@
 		if (res.status === 200) {
 			const response = await res.json();
 			messages.value.push({
-				role: 'AI Elon Musk',
+				role: 'AI 丶时光啊',
 				message: response?.message
 			});
 		} else {
 			messages.value.push({
-				role: 'AI Elon Musk',
+				role: 'AI 丶时光啊',
 				message: '您的回复太快了请休息一下稍后再试.'
 			});
 		}
@@ -70,7 +70,7 @@
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
 				<div class="h-full overflow-auto chat-messages">
 					<div v-for="(message, i) in messages" :key="i" class="flex flex-col p-4">
-						<div v-if="message.role === 'AI Elon Musk'" class="pr-8 mr-auto">
+						<div v-if="message.role === 'AI 丶时光啊'" class="pr-8 mr-auto">
 							<div class="p-2 mt-1 text-sm text-gray-700 bg-gray-200 rounded-lg text-smp-2">
 								{{ message.message }}
 							</div>
