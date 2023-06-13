@@ -419,7 +419,7 @@ export default defineEventHandler(async (event) => {
   const previosMessages = await readBody(event);
   messages = messages.concat(previosMessages);
   let prompt =
-    messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\nAI 丶时光啊:`;
+    messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
   const req = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
     headers: {
@@ -431,7 +431,7 @@ export default defineEventHandler(async (event) => {
       messages: [
         { role: 'system', content: `${prompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
         ...messages.map((message) => ({
-          role: message.role === 'AI 丶时光啊' ? 'assistant' : 'user',
+          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
           content: message.message
         }))
       ]
