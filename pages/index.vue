@@ -1,76 +1,83 @@
 <script setup>
-	  const messages = ref([
-	    {
-	      role: '丶时光啊AI',
-	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-	    }
-	  ]);
+	  const messages = ref(JSON.parse(localStorage.getItem('messages')) || [{
+	    role: '丶时光啊AI',
+	    message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+	  }]);
 	  const loading = ref(false);
 	  const message = ref('');
 	  let isTyping = ref(false);
-	  const typing = ref(false); // New ref
-
-	  // Function for the text generation animation
+	  const typing = ref(false);
+	
 	  const typeMessage = (messageText) => {
 	    let i = 0;
 	    isTyping.value = true;
 	    function typing() {
 	      if (i < messageText.length) {
-		messages.value[messages.value.length - 1].message += messageText.charAt(i);
-		i++;
-		setTimeout(typing, 100); // Adjust the typing speed here
+	        messages.value[messages.value.length - 1].message += messageText.charAt(i);
+	        i++;
+	        setTimeout(typing, 100);
 	      } else {
-		isTyping.value = false;
+	        isTyping.value = false;
 	      }
 	    }
 	    typing();
 	  };
-
+	
 	  const scrollToEnd = () => {
 	    setTimeout(() => {
 	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
 	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	    }, 100);
 	  };
-
+	
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
-	    typing.value = true; // Set typing to true when user submits a message
-
+	    typing.value = true;
+	
 	    messages.value.push({
 	      role: 'User',
 	      message: message.value
 	    });
-
+	
+	    localStorage.setItem('messages', JSON.stringify(messages.value));
+	    
 	    scrollToEnd();
 	    message.value = '';
-
+	
 	    const res = await fetch(`/api/chat`, {
 	      body: JSON.stringify(messages.value.slice(1)),
 	      method: 'post'
 	    });
-
+	
 	    if (res.status === 200) {
 	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
+	      typing.value = false;
 	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
+	        role: '丶时光啊AI',
+	        message: ''
 	      });
-	      typeMessage(response?.message); // Animate the message being typed
+	      typeMessage(response?.message);
 	    } else {
 	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
+	        role: '丶时光啊AI',
+	        message: '您的回复太快了请休息一下稍后再试.'
 	      });
 	    }
-
+	
+	    localStorage.setItem('messages', JSON.stringify(messages.value));
 	    loading.value = false;
 	    scrollToEnd();
 	  };
+	
+	  const clearChat = () => {
+	    messages.value = [{
+	      role: '丶时光啊AI',
+	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+	    }];
+	    localStorage.removeItem('messages');
+	  };
 </script>
-
 
 
 <template>
