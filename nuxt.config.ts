@@ -9,5 +9,6 @@ export default defineNuxtConfig({
 			tailwindcss: {},
 			autoprefixer: {}
 		}
-	}
+	},
+	plugins: [{ src: '~/plugins/vercel.ts', mode: 'client' }]
 });
