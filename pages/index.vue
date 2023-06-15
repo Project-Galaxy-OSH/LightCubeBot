@@ -2,7 +2,7 @@
   import { ref, onMounted } from 'vue';
 
   const messages = ref([]);
-  const conversationHistory = ref(JSON.parse(localStorage.getItem('conversationHistory')) || []);
+  const conversationHistory = ref(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('conversationHistory')) || [] : []);
   const loading = ref(false);
   const message = ref('');
   let isTyping = ref(false);
@@ -45,7 +45,9 @@
       message: message.value
     });
 
-    localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory.value));
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory.value));
+    }
 
     scrollToEnd();
     message.value = '';
@@ -77,7 +79,9 @@
   const clearChat = () => {
     messages.value = [];
     conversationHistory.value = [];
-    localStorage.removeItem('conversationHistory');
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('conversationHistory');
+    }
   };
 
   onMounted(() => {
