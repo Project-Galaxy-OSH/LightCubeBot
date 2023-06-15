@@ -1,4 +1,4 @@
-<script setup>
+<script setup> 
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
