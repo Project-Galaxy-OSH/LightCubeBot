@@ -2,11 +2,19 @@
   import { ref, onMounted } from 'vue';
 
   const messages = ref([]);
-  const conversationHistory = ref(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('messages')) || [] : []);
   const loading = ref(false);
   const message = ref('');
   let isTyping = ref(false);
   const typing = ref(false);
+
+  const storeChatHistory = (userMessage, aiMessage) => {
+    let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
+    if (userMessage) chatHistory.push(userMessage);
+    if (aiMessage) chatHistory.push(aiMessage);
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
+    }
+  };
 
   const typeMessage = (messageText) => {
     let i = 0;
@@ -35,14 +43,13 @@
     loading.value = true;
     typing.value = true;
 
-    messages.value.push({
+    const userMessage = {
       role: 'User',
       message: message.value
-    });
+    };
 
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('messages', JSON.stringify(messages.value));
-    }
+    messages.value.push(userMessage);
+    storeChatHistory(userMessage, null);
 
     scrollToEnd();
     message.value = '';
@@ -55,19 +62,20 @@
     if (res.status === 200) {
       const response = await res.json();
       typing.value = false;
-      messages.value.push({
+      const aiMessage = {
         role: '丶时光啊AI',
         message: ''
-      });
+      };
+      messages.value.push(aiMessage);
+      storeChatHistory(null, aiMessage);
       typeMessage(response?.message);
-      if (typeof window !== 'undefined') {
-        localStorage.setItem('messages', JSON.stringify(messages.value));
-      }
     } else {
-      messages.value.push({
+      const aiMessage = {
         role: '丶时光啊AI',
         message: '您的回复太快了请休息一下稍后再试.'
-      });
+      };
+      messages.value.push(aiMessage);
+      storeChatHistory(null, aiMessage);
     }
 
     loading.value = false;
@@ -77,23 +85,30 @@
   const clearChat = () => {
     messages.value = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('messages');
+      localStorage.removeItem('chatHistory');
     }
-    messages.value.push({
+    const aiMessage = {
       role: '丶时光啊AI',
       message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-    });
+    };
+    messages.value.push(aiMessage);
+    storeChatHistory(null, aiMessage);
   };
 
   onMounted(() => {
-    if (conversationHistory.value.length > 0) {
-      messages.value = [...conversationHistory.value];
-    } else {
-      messages.value.push({
-        role: '丶时光啊AI',
-        message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-      });
-    }
+  let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
+  if (chatHistory.length > 0) {
+    messages.value = [...chatHistory];
+  } else {
+    const aiMessage = {
+      role: '丶时光啊AI',
+      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+    };
+    messages.value.push(aiMessage);
+    storeChatHistory(null, aiMessage);
+  }
+});
+
 </script>
 
 
