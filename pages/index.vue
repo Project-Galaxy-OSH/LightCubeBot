@@ -2,19 +2,11 @@
   import { ref, onMounted } from 'vue';
 
   const messages = ref([]);
+  const conversationHistory = ref(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('conversationHistory')) || [] : []);
   const loading = ref(false);
   const message = ref('');
   let isTyping = ref(false);
   const typing = ref(false);
-
-  const storeChatHistory = (userMessage, aiMessage) => {
-    let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
-    if (userMessage) chatHistory.push(userMessage);
-    if (aiMessage) chatHistory.push(aiMessage);
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('chatHistory', JSON.stringify(chatHistory));
-    }
-  };
 
   const typeMessage = (messageText) => {
     let i = 0;
@@ -43,13 +35,19 @@
     loading.value = true;
     typing.value = true;
 
-    const userMessage = {
+    messages.value.push({
       role: 'User',
       message: message.value
-    };
+    });
 
-    messages.value.push(userMessage);
-    storeChatHistory(userMessage, null);
+    conversationHistory.value.push({
+      role: 'User',
+      message: message.value
+    });
+
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory.value));
+    }
 
     scrollToEnd();
     message.value = '';
@@ -62,20 +60,16 @@
     if (res.status === 200) {
       const response = await res.json();
       typing.value = false;
-      const aiMessage = {
+      messages.value.push({
         role: '丶时光啊AI',
         message: ''
-      };
-      messages.value.push(aiMessage);
-      storeChatHistory(null, aiMessage);
+      });
       typeMessage(response?.message);
     } else {
-      const aiMessage = {
+      messages.value.push({
         role: '丶时光啊AI',
         message: '您的回复太快了请休息一下稍后再试.'
-      };
-      messages.value.push(aiMessage);
-      storeChatHistory(null, aiMessage);
+      });
     }
 
     loading.value = false;
@@ -84,33 +78,23 @@
 
   const clearChat = () => {
     messages.value = [];
+    conversationHistory.value = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('chatHistory');
+      localStorage.removeItem('conversationHistory');
     }
-    const aiMessage = {
-      role: '丶时光啊AI',
-      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-    };
-    messages.value.push(aiMessage);
-    storeChatHistory(null, aiMessage);
   };
 
   onMounted(() => {
-    let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
-    if (chatHistory.length > 0) {
-      messages.value = [...chatHistory];
+    if (conversationHistory.value.length > 0) {
+      messages.value = [...conversationHistory.value];
     } else {
-      const aiFirstMessage = {
-        role: 'AI',
-        message: 'Hello, how can I assist you today?'
-      };
-      messages.value.push(aiFirstMessage);
-      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+      messages.value.push({
+        role: '丶时光啊AI',
+        message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+      });
     }
   });
-
 </script>
-
 
 
 <template>
