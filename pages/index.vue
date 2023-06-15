@@ -30,6 +30,17 @@
 	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	    }, 100);
 	  };
+	
+	  const saveMessages = () => {
+	    localStorage.setItem('messages', JSON.stringify(messages.value));
+	  };
+	
+	  const clearChat = () => {
+	    const firstMessage = messages.value[0]; // keep the first message
+	    localStorage.setItem('messages', JSON.stringify([firstMessage])); // update local storage with the first message
+	    messages.value = [firstMessage]; // reset the messages array to the first message
+	  };
+	
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
@@ -52,6 +63,7 @@
 		message: '' // Start with an empty message
 	      });
 	      typeMessage(response?.message); // Animate the message being typed
+	      saveMessages();
 	    } else {
 	      messages.value.push({
 		role: '丶时光啊AI',
@@ -60,6 +72,13 @@
 	    }
 	    loading.value = false;
 	    scrollToEnd();
+	    onMounted(() => {
+	      const savedMessages = localStorage.getItem('messages');
+	      if (savedMessages) {
+	        messages.value = JSON.parse(savedMessages);
+	      }
+	     });
+		
 	  };
 </script>
 
@@ -142,6 +161,9 @@
 				</form>
 			</div>
 		</div>
+			<button @click="clearChat" class="clear-chat-button">
+			  Clear Chat
+			</button>
 
 			<div class="flex items-center justify-center my-2">
 				<span>摇光人格</span>
@@ -201,6 +223,16 @@
 	  text-autocapitalize: none;
 	  text-autocorrect: off;
 	}
+	.clear-chat-button {
+	  background: #ff0000;
+	  color: #ffffff;
+	  padding: 5px 10px;
+	  border: none;
+	  border-radius: 5px;
+	  cursor: pointer;
+	  margin: 10px;
+	}
+
 
 
 </style>
