@@ -2,7 +2,7 @@
   import { ref, onMounted } from 'vue';
 
   const messages = ref([]);
-  const conversationHistory = ref(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('conversationHistory')) || [] : []);
+  const conversationHistory = ref(typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('messages')) || [] : []);
   const loading = ref(false);
   const message = ref('');
   let isTyping = ref(false);
@@ -40,13 +40,8 @@
       message: message.value
     });
 
-    conversationHistory.value.push({
-      role: 'User',
-      message: message.value
-    });
-
     if (typeof window !== 'undefined') {
-      localStorage.setItem('conversationHistory', JSON.stringify(conversationHistory.value));
+      localStorage.setItem('messages', JSON.stringify(messages.value));
     }
 
     scrollToEnd();
@@ -65,6 +60,9 @@
         message: ''
       });
       typeMessage(response?.message);
+      if (typeof window !== 'undefined') {
+        localStorage.setItem('messages', JSON.stringify(messages.value));
+      }
     } else {
       messages.value.push({
         role: '丶时光啊AI',
@@ -78,10 +76,13 @@
 
   const clearChat = () => {
     messages.value = [];
-    conversationHistory.value = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('conversationHistory');
+      localStorage.removeItem('messages');
     }
+    messages.value.push({
+      role: '丶时光啊AI',
+      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+    });
   };
 
   onMounted(() => {
@@ -93,7 +94,6 @@
         message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
       });
     }
-  });
 </script>
 
 
