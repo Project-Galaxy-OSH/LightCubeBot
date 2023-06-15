@@ -10,6 +10,17 @@
 	  let isTyping = ref(false);
 	  const typing = ref(false); // New ref
 	  // Function for the text generation animation
+
+	  const saveMessages = () => {
+	    localStorage.setItem('messages', JSON.stringify(messages.value));
+	  };
+	
+	  const clearChat = () => {
+	    const firstMessage = messages.value[0]; // keep the first message
+	    localStorage.setItem('messages', JSON.stringify([firstMessage])); // update local storage with the first message
+	    messages.value = [firstMessage]; // reset the messages array to the first message
+	  };
+	
 	  const typeMessage = (messageText) => {
 	    let i = 0;
 	    isTyping.value = true;
@@ -32,16 +43,7 @@
 	    }, 100);
 	  };
 	
-	  const saveMessages = () => {
-	    localStorage.setItem('messages', JSON.stringify(messages.value));
-	  };
-	
-	  const clearChat = () => {
-	    const firstMessage = messages.value[0]; // keep the first message
-	    localStorage.setItem('messages', JSON.stringify([firstMessage])); // update local storage with the first message
-	    messages.value = [firstMessage]; // reset the messages array to the first message
-	  };
-	
+
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
