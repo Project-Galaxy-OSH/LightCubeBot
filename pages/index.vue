@@ -42,42 +42,33 @@
     if (message.value === '') return;
     loading.value = true;
     typing.value = true;
-
-    const userMessage = {
+    messages.value.push({
       role: 'User',
       message: message.value
-    };
-
-    messages.value.push(userMessage);
-    storeChatHistory(userMessage, null);
-
+    });
+    localStorage.setItem('chatHistory', JSON.stringify(messages.value));
     scrollToEnd();
     message.value = '';
-
     const res = await fetch(`/api/chat`, {
       body: JSON.stringify(messages.value.slice(1)),
       method: 'post'
     });
-
     if (res.status === 200) {
       const response = await res.json();
       typing.value = false;
-      const aiMessage = {
-        role: '丶时光啊AI',
+      messages.value.push({
+        role: 'AI',
         message: ''
-      };
-      messages.value.push(aiMessage);
-      storeChatHistory(null, aiMessage);
+      });
       typeMessage(response?.message);
+      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
     } else {
-      const aiMessage = {
-        role: '丶时光啊AI',
-        message: '您的回复太快了请休息一下稍后再试.'
-      };
-      messages.value.push(aiMessage);
-      storeChatHistory(null, aiMessage);
+      messages.value.push({
+        role: 'AI',
+        message: 'Sorry, I am unable to generate a response at the moment.'
+      });
+      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
     }
-
     loading.value = false;
     scrollToEnd();
   };
@@ -96,18 +87,18 @@
   };
 
   onMounted(() => {
-  let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
-  if (chatHistory.length > 0) {
-    messages.value = [...chatHistory];
-  } else {
-    const aiMessage = {
-      role: '丶时光啊AI',
-      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-    };
-    messages.value.push(aiMessage);
-    storeChatHistory(null, aiMessage);
-  }
-});
+    let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
+    if (chatHistory.length > 0) {
+      messages.value = [...chatHistory];
+    } else {
+      const aiFirstMessage = {
+        role: 'AI',
+        message: 'Hello, how can I assist you today?'
+      };
+      messages.value.push(aiFirstMessage);
+      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+    }
+  });
 
 </script>
 
