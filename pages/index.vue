@@ -1,11 +1,13 @@
 <script setup>
+  import { ref, onMounted } from 'vue';
+
   const messages = ref([]);
   const conversationHistory = ref(JSON.parse(localStorage.getItem('conversationHistory')) || []);
   const loading = ref(false);
   const message = ref('');
   let isTyping = ref(false);
   const typing = ref(false);
-
+  
   const typeMessage = (messageText) => {
     let i = 0;
     isTyping.value = true;
