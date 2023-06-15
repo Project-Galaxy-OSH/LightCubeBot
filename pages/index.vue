@@ -1,66 +1,87 @@
 <script setup>
-	  const messages = ref([
-	    {
-	      role: '丶时光啊AI',
-	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-	    }
-	  ]);
-	  const loading = ref(false);
-	  const message = ref('');
-	  let isTyping = ref(false);
-	  const typing = ref(false); // New ref
-	  // Function for the text generation animation
-	  const typeMessage = (messageText) => {
-	    let i = 0;
-	    isTyping.value = true;
-	    function typing() {
-	      if (i < messageText.length) {
-		messages.value[messages.value.length - 1].message += messageText.charAt(i);
-		i++;
-		setTimeout(typing, 100); // Adjust the typing speed here
-	      } else {
-		isTyping.value = false;
-	      }
-	    }
-	    typing();
+	import { ref, onMounted } from 'vue';
+	
+	let messages = ref([
+	  {
+	    role: '丶时光啊AI',
+	    message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+	  }
+	]);
+	
+	let message = ref('');
+	let isTyping = ref(false);
+	
+	// Function for the text generation animation
+	const typeMessage = (messageText, callback) => {
+	  let i = 0;
+	  isTyping.value = true;
+	  const messageObj = {
+	    role: '丶时光啊AI',
+	    message: '' // Start with an empty message
 	  };
-	  const scrollToEnd = () => {
-	    setTimeout(() => {
-	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
-	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-	    }, 100);
-	  };
-	  const sendPrompt = async () => {
-	    if (message.value === '') return;
-	    loading.value = true;
-	    typing.value = true; // Set typing to true when user submits a message
-	    messages.value.push({
-	      role: 'User',
-	      message: message.value
-	    });
-	    scrollToEnd();
-	    message.value = '';
-	    const res = await fetch(`/api/chat`, {
-	      body: JSON.stringify(messages.value.slice(1)),
-	      method: 'post'
-	    });
-	    if (res.status === 200) {
-	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
-	      });
-	      typeMessage(response?.message); // Animate the message being typed
+	  messages.value.push(messageObj); // Add the empty message to the messages array
+	  const interval = setInterval(() => {
+	    if (i < messageText.length) {
+	      messageObj.message += messageText[i]; // Add one character at a time
+	      i++;
 	    } else {
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
-	      });
+	      clearInterval(interval); // Stop the interval once the message is complete
+	      isTyping.value = false;
+	      callback();
 	    }
-	    loading.value = false;
+	  }, 100); // Adjust the typing speed here
+	};
+	
+	const scrollToEnd = () => {
+	  setTimeout(() => {
+	    const chatMessages = document.querySelector('.chat-messages > div:last-child');
+	    chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+	  }, 100);
+	};
+	
+	const saveMessages = () => {
+	  localStorage.setItem('messages', JSON.stringify(messages.value));
+	};
+	
+	const clearChat = () => {
+	  const firstMessage = messages.value[0]; // keep the first message
+	  localStorage.setItem('messages', JSON.stringify([firstMessage])); // update local storage with the first message
+	  messages.value = [firstMessage]; // reset the messages array to the first message
+	};
+	
+	const sendPrompt = async () => {
+	  if (message.value === '') return;
+	  messages.value.push({
+	    role: 'User',
+	    message: message.value
+	  });
+	  scrollToEnd();
+	  message.value = '';
+	
+	  const res = await fetch(`/api/chat`, {
+	    body: JSON.stringify(messages.value.slice(1)),
+	    method: 'post'
+	  });
+	
+	  if (res.status === 200) {
+	    const response = await res.json();
+	    typeMessage(response?.message, saveMessages); // Animate the message being typed
+	  } else {
+	    messages.value.push({
+	      role: '丶时光啊AI',
+	      message: '您的回复太快了请休息一下稍后再试.'
+	    });
+	    saveMessages();
 	    scrollToEnd();
-	  };
+	  }
+	};
+	
+	onMounted(() => {
+	  const savedMessages = localStorage.getItem('messages');
+	  if (savedMessages) {
+	    messages.value = JSON.parse(savedMessages);
+	  }
+	});
 </script>
 
 
