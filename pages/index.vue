@@ -70,6 +70,16 @@
 	    loading.value = false;
 	    scrollToEnd();
 	  };
+	   // Method to clear history
+	  function clearHistory() {
+	    localStorage.clear();
+	    messages.value = [
+	      {
+	        role: '丶时光啊AI',
+	        message: '历史已清除。让我们重新开始吧！'
+	      }
+	    ];
+	  }
 </script>
 
 
@@ -214,15 +224,3 @@
 
 </style>
 
-<script>
-  // Method to clear history
-  function clearHistory() {
-    localStorage.clear();
-    messages.value = [
-      {
-        role: '丶时光啊AI',
-        message: '历史已清除。让我们重新开始吧！'
-      }
-    ];
-  }
-</script>
