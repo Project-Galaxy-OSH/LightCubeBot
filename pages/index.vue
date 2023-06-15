@@ -9,7 +9,6 @@
 	  const message = ref('');
 	  let isTyping = ref(false);
 	  const typing = ref(false); // New ref
-
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
 	    let i = 0;
@@ -25,32 +24,26 @@
 	    }
 	    typing();
 	  };
-
 	  const scrollToEnd = () => {
 	    setTimeout(() => {
 	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
 	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	    }, 100);
 	  };
-
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
 	    typing.value = true; // Set typing to true when user submits a message
-
 	    messages.value.push({
 	      role: 'User',
 	      message: message.value
 	    });
-
 	    scrollToEnd();
 	    message.value = '';
-
 	    const res = await fetch(`/api/chat`, {
 	      body: JSON.stringify(messages.value.slice(1)),
 	      method: 'post'
 	    });
-
 	    if (res.status === 200) {
 	      const response = await res.json();
 	      typing.value = false; // Set typing to false when the response is received
@@ -65,12 +58,10 @@
 		message: '您的回复太快了请休息一下稍后再试.'
 	      });
 	    }
-
 	    loading.value = false;
 	    scrollToEnd();
 	  };
 </script>
-
 
 
 <template>

@@ -16,6 +16,7 @@
   "dependencies": {
     "@vercel/analytics": "^1.0.1",
     "eventsource-parser": "^0.1.0",
+    "local-storage": "^2.0.0",
     "openai": "^3.2.1",
     "stream": "^0.0.2"
   }
