@@ -17,12 +17,13 @@
 	      if (i < messageText.length) {
 		messages.value[messages.value.length - 1].message += messageText.charAt(i);
 		i++;
-		setTimeout(typing, 100); // Adjust the typing speed here
+		setTimeout(typing, 200); // Adjust the typing speed here
 	      } else {
 		isTyping.value = false;
 	      }
 	    }
 	    typing();
+            saveMessages();
 	  };
 	  const scrollToEnd = () => {
 	    setTimeout(() => {
@@ -49,6 +50,7 @@
 	      role: 'User',
 	      message: message.value
 	    });
+	    saveMessages();
 	    scrollToEnd();
 	    message.value = '';
 	    const res = await fetch(`/api/chat`, {
@@ -68,6 +70,7 @@
 	      messages.value.push({
 		role: '丶时光啊AI',
 		message: '您的回复太快了请休息一下稍后再试.'
+		saveMessages();
 	      });
 	    }
 	    loading.value = false;
@@ -162,7 +165,7 @@
 			</div>
 		</div>
 			<button @click="clearChat" class="clear-chat-button">
-			  Clear Chat
+			  清除历史
 			</button>
 
 			<div class="flex items-center justify-center my-2">
