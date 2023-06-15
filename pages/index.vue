@@ -42,33 +42,42 @@
     if (message.value === '') return;
     loading.value = true;
     typing.value = true;
-    messages.value.push({
+
+    const userMessage = {
       role: 'User',
       message: message.value
-    });
-    localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+    };
+
+    messages.value.push(userMessage);
+    storeChatHistory(userMessage, null);
+
     scrollToEnd();
     message.value = '';
+
     const res = await fetch(`/api/chat`, {
       body: JSON.stringify(messages.value.slice(1)),
       method: 'post'
     });
+
     if (res.status === 200) {
       const response = await res.json();
       typing.value = false;
-      messages.value.push({
-        role: 'AI',
+      const aiMessage = {
+        role: '丶时光啊AI',
         message: ''
-      });
+      };
+      messages.value.push(aiMessage);
+      storeChatHistory(null, aiMessage);
       typeMessage(response?.message);
-      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
     } else {
-      messages.value.push({
-        role: 'AI',
-        message: 'Sorry, I am unable to generate a response at the moment.'
-      });
-      localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+      const aiMessage = {
+        role: '丶时光啊AI',
+        message: '您的回复太快了请休息一下稍后再试.'
+      };
+      messages.value.push(aiMessage);
+      storeChatHistory(null, aiMessage);
     }
+
     loading.value = false;
     scrollToEnd();
   };
