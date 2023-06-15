@@ -78,22 +78,31 @@
 
   const clearChat = () => {
     messages.value = [];
-    conversationHistory.value = [];
     if (typeof window !== 'undefined') {
-      localStorage.removeItem('conversationHistory');
+      localStorage.removeItem('chatHistory');
     }
+    const aiMessage = {
+      role: '丶时光啊AI',
+      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+    };
+    messages.value.push(aiMessage);
+    storeChatHistory(null, aiMessage);
   };
 
   onMounted(() => {
-    if (conversationHistory.value.length > 0) {
-      messages.value = [...conversationHistory.value];
+    let chatHistory = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('chatHistory')) || [] : [];
+    if (chatHistory.length > 0) {
+      messages.value = [...chatHistory];
     } else {
-      messages.value.push({
+      const aiMessage = {
         role: '丶时光啊AI',
         message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
-      });
+      };
+      messages.value.push(aiMessage);
+      storeChatHistory(null, aiMessage);
     }
   });
+
 </script>
 
 
