@@ -7,15 +7,6 @@
 	  ]);
 	  const loading = ref(false);
 	  const message = ref('');
-	  let isFirstTimeUser = !localStorage.getItem('user');
-          const messages = ref([
-	      {
-	        role: '丶时光啊AI',
-	        message: isFirstTimeUser
-	          ? '你好！我是丶时光啊的AI摇光人格。这是我们第一次见面，我很想了解你的需求。'
-	          : '欢迎回来！我有新的信息想和你分享。'
-	      }
-          ]);
 	  let isTyping = ref(false);
 	  const typing = ref(false); // New ref
 	  // Function for the text generation animation
@@ -70,16 +61,6 @@
 	    loading.value = false;
 	    scrollToEnd();
 	  };
-	   // Method to clear history
-	  function clearHistory() {
-	    localStorage.clear();
-	    messages.value = [
-	      {
-	        role: '丶时光啊AI',
-	        message: '历史已清除。让我们重新开始吧！'
-	      }
-	    ];
-	  }
 </script>
 
 
@@ -161,7 +142,7 @@
 				</form>
 			</div>
 		</div>
-			<button @click="clearHistory" class="clear-history">清除历史</button>
+
 			<div class="flex items-center justify-center my-2">
 				<span>摇光人格</span>
 				<a
@@ -223,4 +204,3 @@
 
 
 </style>
-
