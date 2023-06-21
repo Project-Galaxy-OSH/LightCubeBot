@@ -140,6 +140,7 @@
 						</button>
 					</div>
 				</form>
+				<div v-if="typing" class="overlay"></div> <!-- Place the overlay div here -->
 			</div>
 		</div>
 
@@ -200,6 +201,16 @@
 	  text-transform: none;
 	  text-autocapitalize: none;
 	  text-autocorrect: off;
+	}
+	
+	.overlay {
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(255, 255, 255, 0.5); /* Semi-transparent white */
+	    z-index: 9999; /* Adjust the z-index value to ensure the overlay covers the input field */
 	}
 
 
