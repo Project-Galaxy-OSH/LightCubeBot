@@ -155,50 +155,50 @@
 </template>
 
 <style>
-  .loader {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    display: block;
-    position: relative;
-    color: #d3d3d3;
-    box-sizing: border-box;
-    animation: animloader 2s linear infinite;
-  }
-
-  @keyframes animloader {
-    0% {
-      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
-    }
-    25% {
-      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
-    }
-    50% {
-      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
-    }
-    75% {
-      box-shadow: 14px 0 0 2px, 38px 0 0 -2px;
-    }
-  }
-
-  .profile-picture {
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    /* Add more styles as needed */
-  }
-
-  .overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
-    z-index: 9999; /* Ensure the overlay is above other elements */
-  }
-
-  .typing-indicator {
-    /* Add styling for the typing indicator */
-  }
+	  .loader {
+	    width: 12px;
+	    height: 12px;
+	    border-radius: 50%;
+	    display: block;
+	    position: relative;
+	    color: #d3d3d3;
+	    box-sizing: border-box;
+	    animation: animloader 2s linear infinite;
+	  }
+	
+	  @keyframes animloader {
+	    0% {
+	      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 -2px;
+	    }
+	    25% {
+	      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 -2px, -38px 0 0 2px;
+	    }
+	    50% {
+	      box-shadow: 14px 0 0 -2px, 38px 0 0 -2px, -14px 0 0 2px, -38px 0 0 -2px;
+	    }
+	    75% {
+	      box-shadow: 14px 0 0 2px, 38px 0 0 -2px;
+	    }
+	  }
+	
+	  .profile-picture {
+	    width: 50px;
+	    height: 50px;
+	    border-radius: 50%;
+	    /* Add more styles as needed */
+	  }
+	
+	  .overlay {
+	    position: absolute;
+	    top: 0;
+	    left: 0;
+	    width: 100%;
+	    height: 100%;
+	    background-color: rgba(0, 0, 0, 0.5); /* Adjust the opacity as needed */
+	    z-index: 9999; /* Ensure the overlay is above other elements */
+	  }
+	
+	  .typing-indicator {
+	    /* Add styling for the typing indicator */
+	  }
 </style>
