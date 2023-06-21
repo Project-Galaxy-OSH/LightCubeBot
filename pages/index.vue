@@ -109,9 +109,10 @@
 							type="text"
 							placeholder="Type here..."
 							class="w-full p-1 text-sm text-black bg-transparent bg-gray-100 border rounded-md shadow border-white/40 grow"
+							:disabled="loading || typing"
 						/>
 						<button
-							:disabled="loading"
+							:disabled="loading || typing"
 							type="submit"
 							class="flex items-center justify-center flex-none w-10 h-10 ml-2 bg-green-500 rounded-full"
 						>
