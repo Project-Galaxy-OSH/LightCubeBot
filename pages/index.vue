@@ -1,4 +1,5 @@
 <script setup>
+	  const userMessage = ref(''); // Store user input separately
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -31,36 +32,43 @@
 	    }, 100);
 	  };
 	  const sendPrompt = async () => {
-	    if (message.value === '') return;
-	    loading.value = true;
-	    typing.value = true; // Set typing to true when user submits a message
-	    messages.value.push({
-	      role: 'User',
-	      message: message.value
-	    });
-	    scrollToEnd();
-	    message.value = '';
-	    const res = await fetch(`/api/chat`, {
-	      body: JSON.stringify(messages.value.slice(1)),
-	      method: 'post'
-	    });
-	    if (res.status === 200) {
-	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
-	      });
-	      typeMessage(response?.message); // Animate the message being typed
-	    } else {
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
-	      });
-	    }
-	    loading.value = false;
-	    scrollToEnd();
-	  };
+		  if (message.value === '') return;
+		  loading.value = true;
+		  typing.value = true;
+		  userMessage.value = message.value; // Buffer user input
+		  message.value = '';
+		
+		  messages.value.push({
+		    role: 'User',
+		    message: userMessage.value // Append user input to the message list
+		  });
+		
+		  scrollToEnd();
+		
+		  const res = await fetch(`/api/chat`, {
+		    body: JSON.stringify(messages.value.slice(1)),
+		    method: 'post'
+		  });
+		
+		  if (res.status === 200) {
+		    const response = await res.json();
+		    typing.value = false;
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '' // Start with an empty message
+		    });
+		    typeMessage(response?.message);
+		  } else {
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '您的回复太快了请休息一下稍后再试.'
+		    });
+		  }
+		
+		  loading.value = false;
+		  scrollToEnd();
+		};
+
 </script>
 
 
