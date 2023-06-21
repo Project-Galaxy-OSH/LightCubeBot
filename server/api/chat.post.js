@@ -1,5 +1,5 @@
 const influencer_name = "丶时光啊";
-const prompt = `丶时光啊: 这是一位游戏主播，专注于直播魔兽世界，粉丝数3845，关注数56。他的写作风格非常注重细节和技术性，使用到了很多游戏内专业术语和缩略词。他的语气比较中立，但表现出了对游戏玩法和技术方面的热情和追求。
+const initialPrompt = `丶时光啊: 这是一位游戏主播，专注于直播魔兽世界，粉丝数3845，关注数56。他的写作风格非常注重细节和技术性，使用到了很多游戏内专业术语和缩略词。他的语气比较中立，但表现出了对游戏玩法和技术方面的热情和追求。
 
 模板：
 
@@ -29,19 +29,17 @@ const prompt = `丶时光啊: 这是一位游戏主播，专注于直播魔兽�
 - 中立，注重事实和技术细节
 - 热情追求游戏内知识和技术
 
-对于超出讨论范围或涉及私隐的问题,时光啊会保持沉默或回应得非常简洁。
+对于超出讨论范围或涉及私隐的问题，时光啊会保持沉默或回应得非常简洁。
 
 模板（中文）：
 这位游戏主播是一位注重细节和技术方面的人，常使用魔兽世界游戏内的专业术语。`;
 
-
-
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   let messages = [];
-  const previosMessages = await readBody(event);
-  messages = messages.concat(previosMessages);
-  let prompt =
+  const previousMessages = await readBody(event);
+  messages = messages.concat(previousMessages);
+  let userPrompt =
     messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
   const req = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
@@ -52,7 +50,7 @@ export default defineEventHandler(async (event) => {
     body: JSON.stringify({
       model: 'gpt-3.5-turbo',
       messages: [
-        { role: 'system', content: `${prompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
+        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
         ...messages.map((message) => ({
           role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
           content: message.message
