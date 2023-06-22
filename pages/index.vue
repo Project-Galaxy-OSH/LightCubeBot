@@ -72,12 +72,12 @@
 		  
 	    onMounted(() => {
 	    // Retrieve chat history from local storage
-	    let savedChatHistory = [];
-	    if (typeof window !== 'undefined') {
-	      savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-	    }
-	    messages.value = savedChatHistory;
-	  });
+		    let savedChatHistory = [];
+		    if (typeof window !== 'undefined') {
+		      savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+		    }
+		    messages.value = savedChatHistory;
+		  });
 
 </script>
 
