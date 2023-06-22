@@ -8,11 +8,13 @@
 	  const loading = ref(false);
 	  const message = ref('');
 	  let isTyping = ref(false);
+	  let isAnimating = ref(false);
 	  const typing = ref(false); // New ref
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
 	    let i = 0;
 	    isTyping.value = true;
+	    isAnimating.value = true;
 	    function typing() {
 	      if (i < messageText.length) {
 		messages.value[messages.value.length - 1].message += messageText.charAt(i);
@@ -20,6 +22,7 @@
 		setTimeout(typing, 100); // Adjust the typing speed here
 	      } else {
 		isTyping.value = false;
+		isAnimating.value = false;
 	      }
 	    }
 	    typing();
