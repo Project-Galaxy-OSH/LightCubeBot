@@ -1,5 +1,5 @@
 <script setup>
-	  import { ref, onMounted } from 'vue';
+	  
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
