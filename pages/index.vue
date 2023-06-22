@@ -1,43 +1,43 @@
 <script setup>
 	  import { ref, onMounted } from 'vue';
+	
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
 	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
 	    }
 	  ]);
+	
 	  const loading = ref(false);
 	  const message = ref('');
-	  let isTyping = ref(false);
-	  let isAnimating = ref(false);
-
-	    // Retrieve chat history from local storage
-
-		
-	  const typing = ref(false); // New ref
-	  // Function for the text generation animation
+	  const isTyping = ref(false);
+	  const isAnimating = ref(false);
+	  const typing = ref(false);
+	
 	  const typeMessage = (messageText) => {
 	    let i = 0;
 	    isTyping.value = true;
 	    isAnimating.value = true;
 	    function typing() {
 	      if (i < messageText.length) {
-		messages.value[messages.value.length - 1].message += messageText.charAt(i);
-		i++;
-		setTimeout(typing, 100); // Adjust the typing speed here
+	        messages.value[messages.value.length - 1].message += messageText.charAt(i);
+	        i++;
+	        setTimeout(typing, 100); // Adjust the typing speed here
 	      } else {
-		isTyping.value = false;
-		isAnimating.value = false;
+	        isTyping.value = false;
+	        isAnimating.value = false;
 	      }
 	    }
 	    typing();
 	  };
+	
 	  const scrollToEnd = () => {
 	    setTimeout(() => {
 	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
 	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	    }, 100);
 	  };
+	
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
@@ -56,29 +56,33 @@
 	      const response = await res.json();
 	      typing.value = false; // Set typing to false when the response is received
 	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
+	        role: '丶时光啊AI',
+	        message: '' // Start with an empty message
 	      });
 	      typeMessage(response?.message); // Animate the message being typed
-		    
+	
+	      if (typeof window !== 'undefined') {
+	        // Save chat history after the response is received and message is animated
+	        localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+	      }
 	    } else {
 	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
+	        role: '丶时光啊AI',
+	        message: '您的回复太快了请休息一下稍后再试.'
 	      });
 	    }
 	    loading.value = false;
 	    scrollToEnd();
-		  
-	    onMounted(() => {
+	  };
+	
+	  onMounted(() => {
 	    // Retrieve chat history from local storage
-		    let savedChatHistory = [];
-		    if (typeof window !== 'undefined') {
-		      savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-		    }
-		    messages.value = savedChatHistory;
-		  });
-
+	    let savedChatHistory = [];
+	    if (typeof window !== 'undefined') {
+	      savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+	    }
+	    messages.value = savedChatHistory;
+	  });
 </script>
 
 
