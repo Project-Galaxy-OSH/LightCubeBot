@@ -63,6 +63,8 @@
 	    }
 	    loading.value = false;
 	    scrollToEnd();
+	    localStorage.setItem('chatHistory', JSON.stringify(messages));
+
 	  };
 </script>
 
