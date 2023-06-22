@@ -81,7 +81,7 @@
 			创建属于你的AI摇光
 		</a>
 		<h1 class="my-8 text-5xl font-bold text-center text-black">高桥圣子AI</h1>
-		<img src="https://raw.githubusercontent.com/Project-Galaxy-OSH/LightCubeBot/Johnnnmai-patch-6-21-6-animating/202208ezk2o1sfpxu.jpg?token=GHSAT0AAAAAACDXBOXEINCIWJ54TLTTABF6ZET4HJA" alt="Profile Picture" class="profile-picture" />
+		<img src="https://raw.githubusercontent.com/Project-Galaxy-OSH/LightCubeBot/Johnnnmai-patch-6-21-7-%E9%AB%98%E6%A1%A5%E5%9C%A3%E5%AD%90/Image_20230621225921.png?token=GHSAT0AAAAAACDXBOXFOMDFZMPBCMUBTHPIZET4PAQ" alt="Profile Picture" class="profile-picture" />
 
 		<div class="max-w-xl mx-auto">
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
