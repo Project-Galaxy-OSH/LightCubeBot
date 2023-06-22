@@ -15,7 +15,7 @@
           let savedChatHistory = [];	
 	  if (typeof window !== 'undefined') {
 	  // Retrieve chat history from local storage
-	    savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+		savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
 	  }
 	  const messages = ref(savedChatHistory);
 		
