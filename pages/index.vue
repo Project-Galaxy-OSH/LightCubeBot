@@ -9,6 +9,13 @@
 	  const message = ref('');
 	  let isTyping = ref(false);
 	  let isAnimating = ref(false);
+
+	    // Retrieve chat history from local storage
+	  const savedChatHistory = JSON.parse(localStorage.getItem('chatHistory'));
+	
+	  // Initialize messages with saved chat history or empty array
+	  const messages = ref(savedChatHistory || []);
+	
 	  const typing = ref(false); // New ref
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
