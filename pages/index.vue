@@ -55,6 +55,9 @@
 		message: '' // Start with an empty message
 	      });
 	      typeMessage(response?.message); // Animate the message being typed
+	      // Save chat history after the response is received and message is animated
+   	      localStorage.setItem('chatHistory', JSON.stringify(messages));
+		    
 	    } else {
 	      messages.value.push({
 		role: '丶时光啊AI',
@@ -63,7 +66,7 @@
 	    }
 	    loading.value = false;
 	    scrollToEnd();
-	    localStorage.setItem('chatHistory', JSON.stringify(messages));
+	    
 
 	  };
 </script>
