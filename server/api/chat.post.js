@@ -36,7 +36,7 @@ const initialPrompt = `丶时光啊: 这是一位游戏主播，专注于直播�
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
-  let messages = JSON.parse(localStorage.getItem('chatHistory')) || [];
+  let messages = [];
 
   const previousMessages = await readBody(event);
   messages = messages.concat(previousMessages);
