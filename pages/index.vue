@@ -1,4 +1,5 @@
 <script setup>
+	  import { ref, onMounted } from 'vue';
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -12,12 +13,6 @@
 
 	    // Retrieve chat history from local storage
 
-          let savedChatHistory = [];	
-	  if (typeof window !== 'undefined') {
-	  // Retrieve chat history from local storage
-		savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
-	  }
-	  const messages = ref(savedChatHistory);
 		
 	  const typing = ref(false); // New ref
 	  // Function for the text generation animation
@@ -65,8 +60,6 @@
 		message: '' // Start with an empty message
 	      });
 	      typeMessage(response?.message); // Animate the message being typed
-	      // Save chat history after the response is received and message is animated
-   	      localStorage.setItem('chatHistory', JSON.stringify(messages));
 		    
 	    } else {
 	      messages.value.push({
@@ -76,9 +69,16 @@
 	    }
 	    loading.value = false;
 	    scrollToEnd();
-	    
+		  
+	    onMounted(() => {
+	    // Retrieve chat history from local storage
+	    let savedChatHistory = [];
+	    if (typeof window !== 'undefined') {
+	      savedChatHistory = JSON.parse(localStorage.getItem('chatHistory')) || [];
+	    }
+	    messages.value = savedChatHistory;
+	  });
 
-	  };
 </script>
 
 
