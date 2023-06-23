@@ -75,6 +75,7 @@
 	      } else {
 		isTyping.value = false;
 		isAnimating.value = false;
+		saveChatHistory();
 	      }
 	    }
 	    typing();
@@ -114,7 +115,7 @@
 	      });
 	    }
 	    loading.value = false;
-            saveChatHistory();
+            
 	    scrollToEnd();
 	  };
 	  onMounted(loadChatHistory);
