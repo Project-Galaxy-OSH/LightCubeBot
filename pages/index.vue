@@ -77,20 +77,20 @@
 	};
 
 	const checkForProactiveMessage = async () => {
-	  // If the user is not currently typing a message
-	  if (!isTyping.value) {
-	    // Check if a proactive message should be sent
-	    const proactiveMessage = await shouldSendProactiveMessage(messages);
-	    if (proactiveMessage) {
-	      // Send the proactive message
-	      messages.value.push({
-	        role: '丶时光啊AI',
-	        message: proactiveMessage
-	      });
-	      scrollToEnd();
-	    }
-	  }
-	};
+		  // If the user is not currently typing a message
+		  if (!isTyping.value) {
+		    // Check if a proactive message should be sent
+		    const proactiveMessage = await shouldSendProactiveMessage(messages.value);
+		    if (proactiveMessage) {
+		      // Send the proactive message
+		      messages.value.push({
+		        role: '丶时光啊AI',
+		        message: proactiveMessage
+		      });
+		      scrollToEnd();
+		    }
+		  }
+		};
 
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
@@ -163,36 +163,21 @@
 	      method: 'post'
 	    });
 	    if (res.status === 200) {
-	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
-	      });
-	      typeMessage(response?.message); // Animate the message being typed
-	          // If the user is not currently typing a message
-		    if (!isTyping.value) {
-		      // Check if a proactive message should be sent
-		      const proactiveMessage = await shouldSendProactiveMessage(messages);
-		      if (proactiveMessage) {
-		        // Send the proactive message
-		        messages.value.push({
-		          role: '丶时光啊AI',
-		          message: proactiveMessage
-		        });
-		        scrollToEnd();
-		      }
-		    }
+		    const response = await res.json();
+		    typing.value = false; // Set typing to false when the response is received
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '' // Start with an empty message
+		    });
+		    typeMessage(response?.message); // Animate the message being typed
+		  } else {
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '您的回复太快了请休息一下稍后再试.'
+		    });
 		  }
-	    } else {
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
-	      });
-	    }
-	    loading.value = false;
-            
-	    scrollToEnd();
+		  loading.value = false;
+		  scrollToEnd();
 	  };
 	  watch(messages, checkForProactiveMessage);
 	  onMounted(loadChatHistory);
