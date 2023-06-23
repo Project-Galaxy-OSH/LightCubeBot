@@ -1,6 +1,6 @@
 <script setup>
           import { onMounted, watch } from 'vue';
-	  import { initialPrompt, influencer_name } from './prompts.js';
+	  import { initialPrompt, influencer_name } from '.server/api/prompts.js';
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
