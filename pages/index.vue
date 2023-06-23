@@ -1,4 +1,5 @@
 <script setup>
+          import { onMounted } from 'vue';
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -10,6 +11,57 @@
 	  let isTyping = ref(false);
 	  let isAnimating = ref(false);
 	  const typing = ref(false); // New ref
+	  
+	  const saveChatHistory = () => {
+		  try {
+		    // Check if storage is full
+		    if (isStorageFull()) {
+		      // Remove the oldest message
+		      messages.value.shift();
+		    }
+		
+		    window.localStorage.setItem('chatHistory', JSON.stringify(messages.value));
+		  } catch (e) {
+		    console.error('Failed to save chat history:', e);
+		  }
+		};
+	
+	const loadChatHistory = () => {
+	  try {
+	    const chatHistory = window.localStorage.getItem('chatHistory');
+	    if (chatHistory) {
+	      messages.value = JSON.parse(chatHistory);
+	    }
+	  } catch (e) {
+	    console.error('Failed to load chat history:', e);
+	  }
+	};
+	
+	const isStorageFull = () => {
+	  try {
+	    const testKey = 'test';
+	    window.localStorage.setItem(testKey, 'test');
+	    window.localStorage.removeItem(testKey);
+	    return false;
+	  } catch (e) {
+	    return true;
+	  }
+	};
+	
+	const restartConversation = () => {
+	  // Clear the messages array
+	  messages.value = [
+	    {
+	      role: '丶时光啊AI',
+	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+	    }
+	  ];
+	
+	  // Clear the chat history from local storage
+	  localStorage.removeItem('chatHistory');
+	};
+
+
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
 	    let i = 0;
@@ -62,8 +114,10 @@
 	      });
 	    }
 	    loading.value = false;
+            saveChatHistory();
 	    scrollToEnd();
 	  };
+	  onMounted(loadChatHistory);
 </script>
 
 
@@ -147,6 +201,10 @@
 			</div>
 		</div>
 
+			<button @click="restartConversation" class="restart-button">
+			  Restart Conversation
+			</button>
+
 			<div class="flex items-center justify-center my-2">
 				<span>摇光人格</span>
 				<a
@@ -205,6 +263,21 @@
 	  text-autocapitalize: none;
 	  text-autocorrect: off;
 	}
+	.restart-button {
+	  padding: 10px 20px;
+	  background-color: #f44336; /* Red */
+	  color: white;
+	  border: none;
+	  cursor: pointer;
+	  font-size: 16px;
+	  margin-top: 20px;
+	}
+	
+	/* Darker background on mouse-over */
+	.restart-button:hover {
+	  background-color: #da190b;
+	}
+
 
 
 </style>
