@@ -1,4 +1,4 @@
-import { initialPrompt, influencer_name } from './prompts.js';
+import { initialPrompt, influencer_name } from '.server/api/prompts.js';
 
 export default defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
