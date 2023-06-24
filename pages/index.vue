@@ -2,6 +2,7 @@
           import { onMounted, watch } from 'vue';
 	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
 
+	  this.$config.OPENAI_API_KEY
 
 	  const messages = ref([
 	    {
@@ -132,7 +133,7 @@
 		    method: 'POST',
 		    headers: {
 		      'Content-Type': 'application/json',
-		      Authorization: `Bearer ${config.OPENAI_API_KEY}`
+		      Authorization: `Bearer ${this.$config.OPENAI_API_KEY}`
 		    },
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
