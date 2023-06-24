@@ -2,7 +2,7 @@
           import { onMounted, watch } from 'vue';
 	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
 
-	  const config = useRuntimeConfig();
+	  
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -127,6 +127,7 @@
 
 	 const shouldSendProactiveMessage = async (messages) => {
 		  // Prepare the prompt for the model
+		 
 		  const userPrompt = messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
 		
 		  // Make the API call
@@ -134,7 +135,7 @@
 		    method: 'POST',
 		    headers: {
 		      'Content-Type': 'application/json',
-		      Authorization: `Bearer ${config.OPENAI_API_KEY}`
+		      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
 		    },
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
