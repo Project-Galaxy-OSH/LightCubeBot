@@ -112,6 +112,7 @@
 		messages.value[messages.value.length - 1].message += messageText.charAt(i);
 		i++;
 		setTimeout(typing, 60); // Adjust the typing speed here
+		scrollToEnd();
 	      } else {
 		isTyping.value = false;
 		isAnimating.value = false;
@@ -120,6 +121,7 @@
 	      }
 	    }
 	    typing();
+	    scrollToEnd();
 	  };
 
 
