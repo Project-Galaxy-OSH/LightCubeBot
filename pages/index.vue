@@ -149,10 +149,12 @@
 		  // Parse the response
 		  const res = await req.json();
 		  const result = res.choices[0].message;
+		  console.log(res)
 		
 		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
 		  // If the model decided not to send a proactive message, return null. Otherwise, return the message.
 		  return result.content.includes('不,') ? null : result.content.trim();
+		 
 
 		};
 
