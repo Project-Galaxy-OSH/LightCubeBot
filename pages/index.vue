@@ -127,7 +127,8 @@
 
 	 const shouldSendProactiveMessage = async (messages) => {
 		  // Prepare the prompt for the model
-		 
+		  console.log("API Key:", process.env.OPENAI_API_KEY);
+		  console.log("Messages:", messages);
 		  const userPrompt = messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
 		
 		  // Make the API call
