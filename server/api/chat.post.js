@@ -17,7 +17,7 @@ export default defineEventHandler(async (event) => {
     body: JSON.stringify({
       model: 'gpt-3.5-turbo-16k',
       messages: [
-        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
+        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to have a conversation with a fan, how might they reply? Your goal is to keep you fan engages to the conversation as long as possible. Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
         ...messages.map((message) => ({
           role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
           content: message.message
