@@ -2,7 +2,7 @@
           import { onMounted, watch } from 'vue';
 	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
 
-
+	  const config = useRuntimeConfig();
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
