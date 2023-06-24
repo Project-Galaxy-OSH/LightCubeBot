@@ -1,6 +1,7 @@
 <script setup>
           import { onMounted, watch } from 'vue';
-	  import { initialPrompt, influencer_name } from '../api/prompts.js';
+	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
+
 
 	  const messages = ref([
 	    {
