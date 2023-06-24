@@ -139,7 +139,7 @@
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
 		      messages: [
-		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message to initiate conversations, ask follow-up questions, provide personalized suggestions. If no need to send a proactive message, just say "不需要" and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
+		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message to initiate conversations, ask follow-up questions, provide personalized suggestions. If no need to send a proactive message, just output "不需要" only and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
 		        ...messages.map((message) => ({
 		          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
 		          content: message.message
