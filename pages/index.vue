@@ -2,7 +2,6 @@
           import { onMounted, watch } from 'vue';
 	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
 
-	  this.$config.OPENAI_API_KEY
 
 	  const messages = ref([
 	    {
@@ -133,12 +132,12 @@
 		    method: 'POST',
 		    headers: {
 		      'Content-Type': 'application/json',
-		      Authorization: `Bearer ${this.$config.OPENAI_API_KEY}`
+		      Authorization: `Bearer ${config.OPENAI_API_KEY}`
 		    },
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
 		      messages: [
-		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message. If no, just say "不" and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
+		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message to initiate conversations, ask follow-up questions, provide personalized suggestions. If no need to send a proactive message, just say "不需要" and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
 		        ...messages.map((message) => ({
 		          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
 		          content: message.message
@@ -154,7 +153,7 @@
 		
 		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
 		  // If the model decided not to send a proactive message, return null. Otherwise, return the message.
-		  return result.content.includes('不,') ? null : result.content.trim();
+		  return result.content.includes('不需要') ? null : result.content.trim();
 		 
 
 		};
