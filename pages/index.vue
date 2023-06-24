@@ -1,5 +1,5 @@
 <script setup>
-          import { onMounted } from 'vue';
+          import { onMounted, watch } from 'vue';
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -26,16 +26,31 @@
 		  }
 		};
 	
-	const loadChatHistory = () => {
-	  try {
-	    const chatHistory = window.localStorage.getItem('chatHistory');
-	    if (chatHistory) {
-	      messages.value = JSON.parse(chatHistory);
-	    }
-	  } catch (e) {
-	    console.error('Failed to load chat history:', e);
-	  }
-	};
+	  const loadChatHistory = async () => {
+		  try {
+		    const chatHistory = window.localStorage.getItem('chatHistory');
+		    if (chatHistory) {
+		      messages.value = JSON.parse(chatHistory);
+		
+		      // If the user is not currently typing a message and the assistant is not currently generating a message
+		      if (!isTyping.value && !isAnimating.value) {
+		        // Check if a proactive message should be sent
+		        const proactiveMessage = await shouldSendProactiveMessage(messages.value);
+		        if (proactiveMessage) {
+		          // If a proactive message should be sent, add it to the messages
+		          messages.value.push({
+		            role: '丶时光啊AI',
+		            message: proactiveMessage
+		          });
+		          scrollToEnd();
+		        }
+		      }
+		    }
+		  } catch (e) {
+		    console.error('Failed to load chat history:', e);
+		  }
+		};
+
 	
 	const isStorageFull = () => {
 	  try {
@@ -61,6 +76,21 @@
 	  localStorage.removeItem('chatHistory');
 	};
 
+	const checkForProactiveMessage = async () => {
+		  // If the user is not currently typing a message
+		  if (!isTyping.value) {
+		    // Check if a proactive message should be sent
+		    const proactiveMessage = await shouldSendProactiveMessage(messages.value);
+		    if (proactiveMessage) {
+		      // Send the proactive message
+		      messages.value.push({
+		        role: '丶时光啊AI',
+		        message: proactiveMessage
+		      });
+		      scrollToEnd();
+		    }
+		  }
+		};
 
 	  // Function for the text generation animation
 	  const typeMessage = (messageText) => {
@@ -86,6 +116,38 @@
 	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
 	    }, 100);
 	  };
+
+	 const shouldSendProactiveMessage = async (messages) => {
+		  // Prepare the prompt for the model
+		  const userPrompt = messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
+		
+		  // Make the API call
+		  const req = await fetch('https://api.openai.com/v1/chat/completions', {
+		    method: 'POST',
+		    headers: {
+		      'Content-Type': 'application/json',
+		      Authorization: `Bearer ${config.OPENAI_API_KEY}`
+		    },
+		    body: JSON.stringify({
+		      model: 'gpt-3.5-turbo-16k',
+		      messages: [
+		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message. If yes, what should the message be? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
+		        ...messages.map((message) => ({
+		          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
+		          content: message.message
+		        }))
+		      ]
+		    })
+		  });
+		
+		  // Parse the response
+		  const res = await req.json();
+		  const result = res.choices[0].message;
+		
+		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
+		  return result.content.startsWith('Yes,') ? result.content.slice(4).trim() : null;
+		};
+
 	  const sendPrompt = async () => {
 	    if (message.value === '') return;
 	    loading.value = true;
@@ -101,23 +163,23 @@
 	      method: 'post'
 	    });
 	    if (res.status === 200) {
-	      const response = await res.json();
-	      typing.value = false; // Set typing to false when the response is received
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '' // Start with an empty message
-	      });
-	      typeMessage(response?.message); // Animate the message being typed
-	    } else {
-	      messages.value.push({
-		role: '丶时光啊AI',
-		message: '您的回复太快了请休息一下稍后再试.'
-	      });
-	    }
-	    loading.value = false;
-            
-	    scrollToEnd();
+		    const response = await res.json();
+		    typing.value = false; // Set typing to false when the response is received
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '' // Start with an empty message
+		    });
+		    typeMessage(response?.message); // Animate the message being typed
+		  } else {
+		    messages.value.push({
+		      role: '丶时光啊AI',
+		      message: '您的回复太快了请休息一下稍后再试.'
+		    });
+		  }
+		  loading.value = false;
+		  scrollToEnd();
 	  };
+	  watch(messages, checkForProactiveMessage);
 	  onMounted(loadChatHistory);
 </script>
 
