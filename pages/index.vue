@@ -78,6 +78,13 @@
 	  // Clear the chat history from local storage
 	  localStorage.removeItem('chatHistory');
 	};
+	
+	const scrollToEnd = () => {
+	    setTimeout(() => {
+	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
+	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+	    }, 100);
+	};
 
 	const checkForProactiveMessage = async () => {
 		  // If the user is not currently typing a message
@@ -109,16 +116,12 @@
 		isTyping.value = false;
 		isAnimating.value = false;
 		saveChatHistory();
+		scrollToEnd();
 	      }
 	    }
 	    typing();
 	  };
-	  const scrollToEnd = () => {
-	    setTimeout(() => {
-	      const chatMessages = document.querySelector('.chat-messages > div:last-child');
-	      chatMessages?.scrollIntoView({ behavior: 'smooth', block: 'end' });
-	    }, 100);
-	  };
+
 
 	 const shouldSendProactiveMessage = async (messages) => {
 		  // Prepare the prompt for the model
@@ -150,7 +153,6 @@
 		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
 		  // If the model decided not to send a proactive message, return null. Otherwise, return the message.
 		  return result.content.includes('不,') ? null : result.content.trim();
-
 
 		};
 
@@ -185,6 +187,7 @@
 		  loading.value = false;
 		  scrollToEnd();
 	  };
+	  scrollToEnd();
 	  watch(messages, checkForProactiveMessage);
 	  onMounted(loadChatHistory);
 </script>
