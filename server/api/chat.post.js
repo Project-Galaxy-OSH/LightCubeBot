@@ -50,7 +50,7 @@ export default defineEventHandler(async (event) => {
       Authorization: `Bearer ${config.OPENAI_API_KEY}`
     },
     body: JSON.stringify({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-3.5-turbo-16k-0613',
       messages: [
         { role: 'system', content: `${prompt} Act as ${influencer_name} were to start a conversation with a fan, how might they reply? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
         ...messages.map((message) => ({
