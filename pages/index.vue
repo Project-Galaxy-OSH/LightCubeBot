@@ -1,5 +1,8 @@
 <script setup>
           import { onMounted, watch } from 'vue';
+	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
+
+ 
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -131,7 +134,7 @@
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
 		      messages: [
-		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message. If yes, what should the message be? Please reply in the first-person view and make it impressive. Output your words in Chinese.` },
+		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message. If no, just say "不" and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
 		        ...messages.map((message) => ({
 		          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
 		          content: message.message
@@ -145,7 +148,10 @@
 		  const result = res.choices[0].message;
 		
 		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
-		  return result.content.startsWith('Yes,') ? result.content.slice(4).trim() : null;
+		  // If the model decided not to send a proactive message, return null. Otherwise, return the message.
+		  return result.content.includes('不,') ? null : result.content.trim();
+
+
 		};
 
 	  const sendPrompt = async () => {
