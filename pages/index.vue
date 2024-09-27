@@ -2,7 +2,7 @@
           import { onMounted, watch } from 'vue';
 	  import { initialPrompt, influencer_name } from '../server/api/prompts.js';
 
-
+	  
 	  const messages = ref([
 	    {
 	      role: '丶时光啊AI',
@@ -112,6 +112,7 @@
 		messages.value[messages.value.length - 1].message += messageText.charAt(i);
 		i++;
 		setTimeout(typing, 60); // Adjust the typing speed here
+		scrollToEnd();
 	      } else {
 		isTyping.value = false;
 		isAnimating.value = false;
@@ -120,11 +121,14 @@
 	      }
 	    }
 	    typing();
+	    scrollToEnd();
 	  };
 
 
 	 const shouldSendProactiveMessage = async (messages) => {
 		  // Prepare the prompt for the model
+		  console.log("API Key:", process.env.OPENAI_API_KEY);
+		  console.log("Messages:", messages);
 		  const userPrompt = messages.map((message) => `${message.role}: ${message.message}`).join('\n') + `\n丶时光啊AI:`;
 		
 		  // Make the API call
@@ -132,12 +136,12 @@
 		    method: 'POST',
 		    headers: {
 		      'Content-Type': 'application/json',
-		      Authorization: `Bearer ${config.OPENAI_API_KEY}`
+		      Authorization: `Bearer ${process.env.OPENAI_API_KEY}`
 		    },
 		    body: JSON.stringify({
 		      model: 'gpt-3.5-turbo-16k',
 		      messages: [
-		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message. If no, just say "不" and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
+		        { role: 'user', content: `${initialPrompt} Act as ${influencer_name} were to analyze the conversation and decide whether to send a proactive message to initiate conversations, ask follow-up questions, provide personalized suggestions. If no need to send a proactive message, just output "不需要" only and If yes, what should the message be? Please reply your proactive message in the first-person view and make it impressive. Output your words in Chinese.` },
 		        ...messages.map((message) => ({
 		          role: message.role === '丶时光啊AI' ? 'assistant' : 'user',
 		          content: message.message
@@ -153,7 +157,7 @@
 		
 		  // If the model decided to send a proactive message, return the message. Otherwise, return null.
 		  // If the model decided not to send a proactive message, return null. Otherwise, return the message.
-		  return result.content.includes('不,') ? null : result.content.trim();
+		  return result.content.includes('不需要') ? null : result.content.trim();
 		 
 
 		};
