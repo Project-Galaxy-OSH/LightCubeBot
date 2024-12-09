@@ -1,8 +1,8 @@
 <script setup>
 	  const messages = ref([
 	    {
-	      role: '丶时光啊AI',
-	      message: '你好！我是丶时光啊的AI摇光人格。逻辑魔兽，科学魔兽！提供各种私教咨询和魔兽游戏咨询，冒险者今天有什么想问我的吗？'
+	      role: '高桥圣子AI',
+	      message: '你好！我是高桥圣子的AI摇光人格。虽然我们还不是情侣，但我对你的喜欢可是真心的哦。怎么样？最近过得如何？有什么开心或者困扰的事情要和我分享吗？'
 	    }
 	  ]);
 	  const loading = ref(false);
@@ -51,13 +51,13 @@
 	      const response = await res.json();
 	      typing.value = false; // Set typing to false when the response is received
 	      messages.value.push({
-		role: '丶时光啊AI',
+		role: '高桥圣子AI',
 		message: '' // Start with an empty message
 	      });
 	      typeMessage(response?.message); // Animate the message being typed
 	    } else {
 	      messages.value.push({
-		role: '丶时光啊AI',
+		role: '高桥圣子AI',
 		message: '您的回复太快了请休息一下稍后再试.'
 	      });
 	    }
@@ -80,14 +80,14 @@
 		>
 			创建属于你的AI摇光
 		</a>
-		<h1 class="my-8 text-5xl font-bold text-center text-black">丶时光啊AI</h1>
-		<img src="https://raw.githubusercontent.com/Johnnnmai/unknown/fce3cf19a75fb421733cd3d966334579f0b108b3/image.png" alt="Profile Picture" class="profile-picture" />
+		<h1 class="my-8 text-5xl font-bold text-center text-black">高桥圣子AI</h1>
+		<img src="https://raw.githubusercontent.com/Project-Galaxy-OSH/LightCubeBot/Johnnnmai-patch-6-21-7-%E9%AB%98%E6%A1%A5%E5%9C%A3%E5%AD%90/Image_20230621225921.png?token=GHSAT0AAAAAACDXBOXFOMDFZMPBCMUBTHPIZET4PAQ" alt="Profile Picture" class="profile-picture" />
 
 		<div class="max-w-xl mx-auto">
 			<div class="bg-white rounded-md shadow h-[60vh] flex flex-col justify-between">
 				<div class="h-full overflow-auto chat-messages">
 					<div v-for="(message, i) in messages" :key="i" class="flex flex-col p-4">
-						<div v-if="message.role === '丶时光啊AI'" class="pr-8 mr-auto">
+						<div v-if="message.role === '高桥圣子AI'" class="pr-8 mr-auto">
 							<div class="p-2 mt-1 text-sm text-gray-700 bg-gray-200 rounded-lg text-smp-2">
 								{{ message.message }}
 							</div>
@@ -102,7 +102,7 @@
 						<span class="loader"></span>
 					</div>
 					<div class="p-4 ml-10 mr-auto" v-if="typing">
-						丶时光啊AI is typing...
+						高桥圣子AI正在输入...
 					</div>
 				</div>
 				<form @submit.prevent="sendPrompt">
